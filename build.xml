@@ -1,0 +1,68 @@
+<project default="package">
+  <property name="codebase" value="Z:/Data/SourceCode/LotteryNumbers" />
+  <property name="src" value="${codebase}/src" />
+  <property name="out" value="${codebase}/bin" />
+  <property name="doc" value="${codebase}/javadoc" />
+  <property name="dest" value="Z:/Data/Projects/DBTW" />
+  <property name="jhome" value="C:/Program Files/Java/jdk1.8.0_51/bin" />
+  <property name="dependdir" value="Z:/Data/SourceCode" />
+  <property name="depend1" value="${dependdir}/DBTW/DBTW/src" />
+  <property name="lib" value="Z:/Data/SourceCode/Common/JavaLibraries" />
+  
+  <target name="cleanup" >
+    <delete>
+      <fileset dir="${out}" includes="**/*" />
+    </delete>
+  </target>
+  
+  <target name="document">
+    <delete>
+      <fileset dir="${doc}" includes="**/*" />
+    </delete>
+    
+    <javadoc packagenames="com.dbtw.lottery.*"
+             sourcepath="${src}"
+             destdir="${doc}"
+             author="true"
+             version="true"
+             use="true"
+             windowtitle="Lottery Number Analysis">
+      <doctitle><![CDATA[<h1>Lottery Number Analysis Documentation</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2014 Databasesthatwork.com All Rights Reserved.</i>]]></bottom>
+    </javadoc>
+  </target>
+  
+  <target name="compile" depends="cleanup">
+    <javac destdir="${out}/"
+           source="1.8"
+           target="1.8">
+      <src path="${src}" />
+      <src path="${depend1}" />
+      <classpath>
+        <fileset dir="${lib}">
+          <include name="**/jfreechart-1.0.19/jfreechart-1.0.19/lib/*.jar" />
+          <include name="**/jfreechart-1.0.19/empire*.jar" />
+          <include name="**/jfreechart-1.0.19/commons*.jar" />
+          <include name="**/jfreechart-1.0.19/poi*.jar" />
+          <include name="**/json_simple-1.1-all/lib/json_simple-1.1.jar" />
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+  
+  <target name="package" depends="compile" >
+    <jar destfile="${dest}/Lottery.jar" basedir="${out}">
+      <manifest>
+        <attribute name="Main-Class" value="com.dbtw.lottery.LotteryMain" />
+        <attribute name="Class-Path" value="" />
+      </manifest>
+      <fileset dir="${lib}">
+        <include name="**/jfreechart-1.0.19/jfreechart-1.0.19/lib/*.jar" />
+        <include name="**/jfreechart-1.0.19/empire*.jar" />
+        <include name="**/jfreechart-1.0.19/commons*.jar" />
+        <include name="**/jfreechart-1.0.19/poi*.jar" />
+        <include name="**/json_simple-1.1-all/lib/json_simple-1.1.jar" />
+      </fileset>
+    </jar>
+  </target>
+</project>
